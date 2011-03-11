@@ -27,7 +27,7 @@ class CarbonClient(object):
             "%s %s %s" % (
                 name, ("%.3f" % value) if isinstance(value, float) else value, timestamp
             ) for name, value in points.iteritems()
-        )
+        )+"\n"
 
         self.connect()
         self.sock.sendall(message)
