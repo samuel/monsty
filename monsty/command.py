@@ -67,6 +67,7 @@ def main():
         cls = getattr(mod, class_name)
         try:
             inst = cls(**pin["args"])
+            info = inst.get_info()
         except:
             sys.stderr.write("Instrument %s failed\n" % pin["name"])
             import traceback
@@ -75,7 +76,7 @@ def main():
             keys = pin.get('keys')
             info = dict(
                 (".".join((name_prefix, pin["name"], k)), v)
-                for k, v in inst.get_info().iteritems()
+                for k, v in inst.iteritems()
                 if not keys or k in keys)
             if options.dryrun:
                 import pprint
