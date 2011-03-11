@@ -36,6 +36,7 @@ class CarbonClient(object):
 def build_parser():
     parser = OptionParser(usage="Usage: %prog [options] logfile")
     parser.add_option("-c", "--carbon", dest="carbon_addr", help="Address of crabon/graphite (host[:port])", default=None)
+    parser.add_option("-d", "--dryrun", dest="dryrun", help="Print output instead of sending to crabon/graphite", default=False, action="store_true")
     return parser
 
 def main():
@@ -52,9 +53,10 @@ def main():
         carbon_addr += ":2003"
     host, port = carbon_addr.split(':')
     port = int(port)
-
-    carbon = CarbonClient(host, port)
-    carbon.connect()
+    
+    if not options.dryrun:
+        carbon = CarbonClient(host, port)
+        carbon.connect()
     
     name_prefix = "rad"
     
@@ -75,9 +77,14 @@ def main():
                 (".".join((name_prefix, pin["name"], k)), v)
                 for k, v in inst.get_info().iteritems()
                 if not keys or k in keys)
-            carbon.send(info)
+            if options.dryrun:
+                import pprint
+                pprint.pprint(info)
+            else:
+                carbon.send(info)
     
-    carbon.close()
+    if not options.dryrun:
+        carbon.close()
 
 if __name__ == "__main__":
     main()
