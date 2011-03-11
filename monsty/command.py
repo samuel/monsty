@@ -1,5 +1,6 @@
 
 import socket
+import sys
 import time
 import yaml
 from optparse import OptionParser
