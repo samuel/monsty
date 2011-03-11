@@ -77,7 +77,7 @@ def main():
             keys = pin.get('keys')
             info = dict(
                 (".".join((name_prefix, pin["name"], k)), v)
-                for k, v in inst.iteritems()
+                for k, v in info.iteritems()
                 if not keys or k in keys)
             if options.dryrun:
                 import pprint
