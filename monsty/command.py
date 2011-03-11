@@ -59,7 +59,7 @@ def main():
         carbon = CarbonClient(host, port)
         carbon.connect()
     
-    name_prefix = "rad"
+    name_prefix = "monsty"
     
     for pin in config["instruments"]:
         class_path = pin["class"]
