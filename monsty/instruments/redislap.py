@@ -34,5 +34,5 @@ class RedisInstrument(object):
             buf += s.recv(1024)
         s.close()
 
-        info = dict(x.split(':', 1) for x in buf.split('\r\n')[1:-2])
+        info = dict(x.split(':', 1) for x in buf.split('\r\n')[1:-2] if not x.startswith("#") and ":" in x)
         return dict((key, info[key]) for key in self.DEFAULT_INFO_KEYS if key in info)
